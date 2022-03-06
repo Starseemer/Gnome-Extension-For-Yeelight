@@ -1,0 +1,8 @@
+{
+  "name": "Yeelight Control",
+  "description": "A Gnome Shell extention to control yeelights",
+  "uuid": "yeelight_controller@stargazer.com",
+  "shell-version": [
+    "41"
+  ]
+}
