@@ -186,23 +186,26 @@ def toggleLight(ip):
 if __name__ == "__main__":
     onboarding()
     CONF = getConfig()
-    inp = sys.argv[1]
-
-    if(len(sys.argv) > 2):
-        sinp = sys.argv[2]
-        bulbs = getBulbDict()
-        if(inp == "-c"):
-            toggleLight(bulbs[sinp[2:]])
-        elif(inp == "-state"):
-            print(getCurrentState(bulbs[sinp[2:]]))
-    elif(inp == "-close"):
-        closeAllLights()
+    if(len(sys.argv) == 1):
+        print("Try running with options")
     else:
-        for scene in CONF["Scenes"]:
-            if(scene["name"] == inp[1:]):
-                for bulbName in getBulbDict().keys():
-                    setLight(bulbName, scene["bulbSettings"][bulbName]
-                             ["r"], scene["bulbSettings"][bulbName]
-                             ["g"], scene["bulbSettings"][bulbName]
-                             ["b"], scene["bulbSettings"][bulbName]["brightness"],
-                             scene["bulbSettings"][bulbName]["power_mode"])
+        inp = sys.argv[1]
+
+        if(len(sys.argv) > 2):
+            sinp = sys.argv[2]
+            bulbs = getBulbDict()
+            if(inp == "-c"):
+                toggleLight(bulbs[sinp[2:]])
+            elif(inp == "-state"):
+                print(getCurrentState(bulbs[sinp[2:]]))
+        elif(inp == "-close"):
+            closeAllLights()
+        else:
+            for scene in CONF["Scenes"]:
+                if(scene["name"] == inp[1:]):
+                    for bulbName in getBulbDict().keys():
+                        setLight(bulbName, scene["bulbSettings"][bulbName]
+                                 ["r"], scene["bulbSettings"][bulbName]
+                                 ["g"], scene["bulbSettings"][bulbName]
+                                 ["b"], scene["bulbSettings"][bulbName]["brightness"],
+                                 scene["bulbSettings"][bulbName]["power_mode"])
