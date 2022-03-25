@@ -126,12 +126,12 @@ def onboarding():
 
 def blinkBulb(ip, blinkCount=5):
     print("Starting blinking...")
-    # bulb = Bulb(ip)
-    # for i in range(blinkCount):
-    #     bulb.set_brightness(10)
-    #     time.sleep(1.2)
-    #     bulb.set_brightness(90)
-    #     time.sleep(1.2)
+    bulb = Bulb(ip)
+    for i in range(blinkCount):
+        bulb.set_brightness(10)
+        time.sleep(1.2)
+        bulb.set_brightness(90)
+        time.sleep(1.2)
 
 
 def getCurrentState(ip):

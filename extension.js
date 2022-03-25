@@ -51,17 +51,42 @@ const Yeelight_Indicator = new Lang.Class({
                             }
                         }
                     }
-                }))
+                }));
                 
             }
-
-
 
             for(var i = 0; i < sceneToggles.length; i++){
                 this.menu.addMenuItem(sceneToggles[i]);
             }
 
-        
+			this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+            bulbs = conf.Bulbs;
+			bulbToggles = []
+
+			for(bulbIndex in bulbs){
+                log(bulbs[bulbIndex].name);
+                const bulbToggle = new PopupMenu.PopupSwitchMenuItem(bulbs[bulbIndex].name + " Toggle",false);
+                bulbToggles.push(bulbToggle);
+            }
+
+
+			for(var i = 0; i < bulbToggles.length; i++){
+                
+                bulbToggles[i].connect('toggled', Lang.bind(this, function(object, value){
+                    currentBulb = object.label.text.substring(0,object.label.text.length-7)
+                    log(currentBulb);
+                    
+                    let output = GLib.spawn_command_line_async('python ' + Me.dir.get_path() + '/main.py -c --' + currentBulb);
+                    
+                }));
+                
+            }
+
+			for(var i = 0; i < bulbToggles.length; i++){
+                this.menu.addMenuItem(bulbToggles[i]);
+            }
+
 
         },
 });
