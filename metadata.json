@@ -1,6 +1,6 @@
 {
   "name": "Yeelight Control",
-  "description": "A Gnome Shell extention to control yeelights",
+  "description": "A Gnome Shell extention to control yeelights\nRun main.py file before using extention. This is required since you have to configure controller settings.",
   "uuid": "yeelight_controller@stargazer.com",
   "shell-version": ["40", "41", "42"]
 }
