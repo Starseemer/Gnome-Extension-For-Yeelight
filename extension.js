@@ -37,14 +37,11 @@ const Yeelight_Indicator = new Lang.Class({
 
             
             for(var i = 0; i < sceneToggles.length; i++){
-                
                 sceneToggles[i].connect('toggled', Lang.bind(this, function(object, value){
                     currentMode = object.label.text.substring(0,object.label.text.length-5)
                     log(currentMode);
                     if(value == true){
                         let output = GLib.spawn_command_line_async('python ' + Me.dir.get_path() + '/main.py -' + currentMode);
-                        // close.setToggleState(false);
-
                         for(var j = 0; j < sceneToggles.length; j++){
                             if(sceneToggles[j].label.text.substring(0,object.label.text.length-5) != currentMode){
                                 sceneToggles[j].setToggleState(false);
@@ -59,7 +56,9 @@ const Yeelight_Indicator = new Lang.Class({
                 this.menu.addMenuItem(sceneToggles[i]);
             }
 
-			this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+            const sep = new PopupMenu.PopupSeparatorMenuItem("PopupSeparatorMenuItem");
+            sep.style_class = "PopupSeparatorMenuItem";
+			this.menu.addMenuItem(sep);
 
             bulbs = conf.Bulbs;
 			bulbToggles = []
@@ -72,15 +71,10 @@ const Yeelight_Indicator = new Lang.Class({
 
 
 			for(var i = 0; i < bulbToggles.length; i++){
-                
                 bulbToggles[i].connect('toggled', Lang.bind(this, function(object, value){
-                    currentBulb = object.label.text.substring(0,object.label.text.length-7)
-                    log(currentBulb);
-                    
+                    currentBulb = object.label.text.substring(0,object.label.text.length-7);
                     let output = GLib.spawn_command_line_async('python ' + Me.dir.get_path() + '/main.py -c --' + currentBulb);
-                    
                 }));
-                
             }
 
 			for(var i = 0; i < bulbToggles.length; i++){
