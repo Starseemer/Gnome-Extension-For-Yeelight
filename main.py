@@ -55,6 +55,9 @@ def checkIfSceneNameExists(scenes, name):
 
 
 def onboarding():
+    '''
+    This function is used to setup Yeelight Controller CLI.
+    '''
     if(not(checkIfConfigExists())):
         bulbs = discover_bulbs()
         print("Welcome new user")
@@ -66,6 +69,7 @@ def onboarding():
             2) For you to setup names of your bulbs, we will blink each one 5 times and ask you to name it
             3) For ease of use we will create different scenes such as work, normal, chill etc. You can name and set the colors of each bulb.
 
+        Bear in mind that names of the scenes and bulbs are going to be used for both gnome extention and cli...
         we can start when ever you are ready.
         """)
         input("Press enter to start\n")
@@ -77,10 +81,13 @@ def onboarding():
             if(inp.strip() != "again()"):
                 CONF["Bulbs"].append(
                     {"name": inp.strip(), "ip": bulbs[index]["ip"]})
+                print("Bulb has been added...")
                 index += 1
+            elif(inp.strip() == "again()"):
+                print("OK, let's try this one again!")
         print("It seems al of the bulbs are named")
 
-        print("""Now let's create those scenes. First give a name to scene and then we will ask you to input rgb and brightness levels to each bulb
+        print("""Now let's create those scenes. First you are going to be asked to give a name to the scene and then we will ask you to input rgb and brightness levels to each bulb
 
         To finish type exit() to name input
 
@@ -183,7 +190,17 @@ def toggleLight(ip):
     t.toggle()
 
 
-if __name__ == "__main__":
+def controller():
+    '''
+    Usage:
+        To toggle a bulb use "python path/to/file/main.py -c --BulbName"
+        To get the state of the bulb "python path/to/file/main.py -state --BulbName"
+        To close all the bulbs "python path/to/file/main.py -close"
+        To run a scene "python path/to/file/main.py --SceneName"
+
+
+    -onboarding function helps users to configure their Bulbs and Scenes.
+    '''
     onboarding()
     CONF = getConfig()
     if(len(sys.argv) == 1):
@@ -202,10 +219,14 @@ if __name__ == "__main__":
             closeAllLights()
         else:
             for scene in CONF["Scenes"]:
-                if(scene["name"] == inp[1:]):
+                if(scene["name"] == inp[2:]):
                     for bulbName in getBulbDict().keys():
                         setLight(bulbName, scene["bulbSettings"][bulbName]
                                  ["r"], scene["bulbSettings"][bulbName]
                                  ["g"], scene["bulbSettings"][bulbName]
                                  ["b"], scene["bulbSettings"][bulbName]["brightness"],
                                  scene["bulbSettings"][bulbName]["power_mode"])
+
+
+if __name__ == "__main__":
+    controller()
